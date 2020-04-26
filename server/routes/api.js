@@ -10,6 +10,7 @@ router.get('/todos', function (req, res) {
 
 router.post('/todo', function (req, res) {
     const text = req.body.text
+    
     const newTodo = { id: id++, text: text, complete: false }
 
     todos.push(newTodo)
@@ -18,15 +19,21 @@ router.post('/todo', function (req, res) {
 
 router.put('/todo/:todoID', function (req, res) {
     const todoID = req.params.todoID
-
-    todos.find(t => t.id == todoID).completed = true
+    
+    todos.find(t => t.id == todoID).complete = true
     res.send(todos)
 })
 
 router.delete('/todo/:todoID', function (req, res) {
     const todoID = req.params.todoID
-    todos.splice(todoID, 1)
-
+    let todoIndex = 0
+    for(let i in todos){
+        if(todos[i].id == todoID){
+            todoIndex = i
+        }
+    }
+    
+    todos.splice(todoIndex, 1)
     res.send(todos)
 })
 
